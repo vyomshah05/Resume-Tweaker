@@ -1,0 +1,61 @@
+Vantage is the FinOps platform built for modern engineering teams, trusted by thousands of organizations including Block, FanDuel, Vercel, Temporal, and CircleCI, to manage and optimize infrastructure costs across hyperscalers, cloud providers, and foundational models. We're passionate about building a cloud cost transparency platform that helps enable everyone, from developers to enterprises, analyze, report, collaborate on, and optimize their cloud spend. Together we are a high-output team of ~50 employees based in New York City with a remote-friendly culture.
+
+Backed by $25M from Andreessen Horowitz and Scale Venture Partners, and prominent industry veterans: Matthew Prince (Co-Founder, Cloudflare), Calvin French Owen (Co-Founder, Segment), Ben and Moisey Uretsky (Co-Founders, DigitalOcean), Stephanie and Nat Friedman (CEO, Github), Julia Lipton, Brianne Kimmel and others.
+
+About The Role:
+You'll join a small, high-performing team of product engineers shipping across the full Vantage stack — core reporting, provider integrations, and billing/onboarding. We move fast: 10-20 production releases a day, with a backlog that's always groomed and prioritized.
+
+We use Linear, Cursor, and Claude as core tools, not novelties. Lightweight processes (ADRs, async Slack huddles) allow us to be connected and co-ordinated without sacrificing quality. Your work will span new features, performance, scalability, and tech debt reduction, often in the same week. Very quickly after joining you'll see your work in our changelog (https://docs.vantage.sh/changelog)
+
+We expect everyone to have a voice. If something's slowing us down or could be done better, you'll be expected to make a suggested improvement — iteration isn't just for code.
+
+What You Will Do:
+
+Work directly with our engineering team and a mentor to build and ship new features
+
+Write clean, testable, peer-reviewed code
+
+Own end-to-end feature development - including measuring and reporting on customer impact
+
+What We’re Looking For:
+
+Experience in at least one object-oriented programming language. We use Ruby for our backend, and are happy to teach it
+
+Someone who is curious and excited to rapidly build, test, and deliver product features that delight customers
+
+Available full-time for 10-12 weeks in our office in New York City between May and August
+
+A kind person
+
+Bonus Points:
+
+Experience with a web framework, such as Ruby on Rails, Django or Express.js
+
+Experience with a front-end framework such as Vue, React or Angular
+
+Previous experience working within a startup environment
+
+Our Tech Stack:
+
+Ruby on Rails (7.x)
+
+Temporal
+
+Serverless Typescript
+
+Large scale data pipelines and storage
+
+Clickhouse
+
+Terraform
+
+Cloudflare
+
+All of the usual AWS services
+
+
+Pay & Benefits
+
+The estimated annual US base salary range for this role is $6,000 - $7,000 per month. This salary range may be inclusive of several career levels and will be narrowed during the interview process based on a number of factors, including the candidate’s experience, qualifications, and location. Additional benefits for this role may include: equity, 401(k) plan; medical, dental, and vision benefits; and education stipends.
+
+At this time, Vantage is only set up to employ in the United States and this role requires working out of our office in New York City

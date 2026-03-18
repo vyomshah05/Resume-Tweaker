@@ -1,0 +1,203 @@
+%-------------------------
+% Resume in Latex
+% Author : Vyom Shah
+% ATS-Optimized for Niantic Spatial – AI Infrastructure, Applied Computer Vision, Backend Engineering
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Section format
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+\pdfgentounicode=1
+
+% Custom commands
+\newcommand{\resumeItem}[1]{\item\small{{#1 \vspace{-2pt}}}}
+\newcommand{\resumeSubheading}[4]{\vspace{-2pt}\item
+  \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+  \textbf{#1} & #2 \\
+  \textit{\small#3} & \textit{\small#4} \\
+  \end{tabular*}\vspace{-7pt}}
+\newcommand{\resumeProjectHeading}[2]{\item
+  \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+  \small#1 & #2 \\
+  \end{tabular*}\vspace{-7pt}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    \textbf{\Huge \scshape Vyom Shah} \\ \vspace{1pt}
+    \small Sunnyvale, CA $|$ 408-215-8301 $|$ 
+    \href{mailto:vyomshah005@gmail.com}{vyomshah005@gmail.com} $|$
+    \href{https://github.com/vyomshah05}{github.com/vyomshah05} $|$
+    \href{https://linkedin.com/in/vyomshah1}{linkedin.com/in/vyomshah1}
+\end{center}
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {University of California, Irvine}{Irvine, CA}
+    {B.S. in Computer Science, GPA: 3.9}{Sep 2023 -- Jun 2027}
+    \resumeItemListStart
+      \resumeItem{\underline{Relevant Coursework:} Machine Learning, Computer Vision, Operating Systems, Database Systems, Data Structures \& Algorithms}
+      \resumeItem{\underline{Leadership:} Vice President, AI@UCI; Learning Assistant for Boolean Logic and Discrete Mathematics}
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+%-----------TECHNICAL SKILLS-----------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.15in, label={}]
+  \small{\item{
+
+  \textbf{Languages:} C++, Python, JavaScript, TypeScript, SQL, Bash, MATLAB \\
+
+  \textbf{Frameworks and Tools:} PyTorch, OpenCV, CUDA, Docker, Kubernetes, Linux, AWS, GCP, Prometheus, Grafana\\
+
+  }}
+\end{itemize}
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+\resumeSubHeadingListStart
+
+\resumeSubheading
+{Core Contributor, ML Systems Infrastructure}{Jan 2026 -- Present}
+{Cactus (YC S25)}{Remote}
+\resumeItemListStart
+
+\resumeItem{Develop high-performance C++ compute kernels supporting GPU-accelerated machine learning workloads and distributed AI training pipelines}
+
+\resumeItem{Optimized memory access patterns, parallel execution, and cache utilization improving distributed system performance by 45\%}
+
+\resumeItem{Contributed to production-grade infrastructure supporting scalable model inference, real-time systems, and large-scale data processing}
+
+\resumeItemListEnd
+
+
+\resumeSubheading
+{Software Engineering Intern}{Jun 2025 -- Sep 2025}
+{Aerlync Labs}{Santa Clara, CA}
+\resumeItemListStart
+
+\resumeItem{Developed real-time C++ systems integrating camera, GPS, and sensor data to enable spatial awareness, localization, and augmented reality visualization}
+
+\resumeItem{Implemented computer vision pipelines performing coordinate transformations, pose estimation, and spatial positioning}
+
+\resumeItem{Built multi-threaded backend services processing real-time geospatial and visual data streams with low latency}
+
+\resumeItem{Implemented pipelines using Prometheus and Grafana improving distributed system debugging by 60\%}
+
+\resumeItemListEnd
+
+
+\resumeSubheading
+{Neural Network Researcher}{Jan 2025 -- Present}
+{Cognitive Anteater Robotics Laboratory}{Irvine, CA}
+\resumeItemListStart
+
+\resumeItem{Develop CUDA-accelerated C++ simulation systems modeling large-scale spiking neural networks using parallel computing}
+
+\resumeItem{Built distributed containerized workloads using Docker enabling scalable training and simulation pipelines}
+
+\resumeItem{Optimized GPU workloads and parallel execution supporting high-throughput real-time simulation}
+
+\resumeItemListEnd
+
+
+\resumeSubheading
+{AI Software Engineering Intern}{Jun 2024 -- Sep 2024}
+{Zepto Digital Labs}{Remote}
+\resumeItemListStart
+
+\resumeItem{Built scalable Python backend services supporting machine learning inference, data ingestion pipelines, and real-time processing}
+
+\resumeItem{Implemented distributed microservices deployed on GCP using Docker and CI/CD ensuring scalability}
+
+\resumeItem{Developed high-throughput systems processing large-scale datasets with optimized latency and fault tolerance}
+
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------
+\section{Projects}
+\resumeSubHeadingListStart
+
+\resumeProjectHeading
+{\textbf{Camera-Based Geospatial Localization and Augmented Reality System} $|$ \emph{C++, Python, OpenCV}}{}
+\resumeItemListStart
+
+\resumeItem{Built computer vision system performing camera pose estimation and spatial coordinate transformations}
+
+\resumeItem{Implemented real-time localization and visual positioning pipelines enabling spatial awareness in real-world}
+
+\resumeItemListEnd
+
+
+\resumeProjectHeading
+{\textbf{LingoLive – Distributed Real-Time Translation Platform} $|$ \emph{Python, AWS, React}}{}
+\resumeItemListStart
+
+\resumeItem{Built distributed backend services supporting real-time inference and scalable data pipelines}
+
+\resumeItem{Developed cloud-native microservices handling concurrent users with sub-500ms latency}
+
+\resumeItemListEnd
+
+
+\resumeProjectHeading
+{\textbf{ZotNotes – AI Knowledge Retrieval and Semantic Search System} $|$ \emph{Python, TypeScript, PyTorch}}{}
+\resumeItemListStart
+
+\resumeItem{Implemented vector embeddings and semantic search pipelines supporting efficient information retrieval}
+
+\resumeItem{Designed scalable backend infrastructure supporting distributed query processing and retrieval}
+
+\resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-------------------------------------------
+\end{document}
