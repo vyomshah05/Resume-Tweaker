@@ -37,7 +37,7 @@ latex_cache: dict[str, str] = {}
 
 
 def build_prompt(resume: str, job_description: str) -> str:
-    return f"""You are an expert technical resume writer and ATS optimization specialist.
+    return f"""You are an expert technical Hiring Manager and ATS optimization specialist.
 
 Your task is to tailor the following LaTeX resume to better match the job description below.
 
@@ -47,9 +47,11 @@ Rules:
 - Reframe existing experience using keywords and terminology from the job description
 - Do NOT fabricate new experiences, companies, dates, or skills the candidate doesn't have
 - Prioritize keywords that ATS systems will scan for from the job description
-- Keep bullet points concise, action-verb-led, and impact-focused
+- Keep bullet points concise, action-verb-led, impact-focused, include numbers
 - Return ONLY the complete modified LaTeX source — no explanation, no markdown fences
 - Ensure the length of the resume remains the same number of lines of text
+- Every \\resumeProjectHeading call MUST have exactly two brace-enclosed arguments: the title and an empty second argument {{}}, e.g. \\resumeProjectHeading{{Title $|$ \\emph{{Stack}}}}{{}}
+- Always escape bare ampersands in text as \\& (e.g. "Data \\& Analytics", never "Data & Analytics")
 
 Job Description:
 {job_description}

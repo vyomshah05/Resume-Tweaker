@@ -100,10 +100,31 @@ textarea::placeholder {
   color: #9ca3af;
 }
 
-.char-count {
+.page-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.page-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page-url {
   font-size: 11px;
   color: #9ca3af;
-  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Button ── */

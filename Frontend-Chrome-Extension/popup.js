@@ -1,32 +1,39 @@
 const API_URL = "http://localhost:8000/tweak-text";
 
-const textarea   = document.getElementById("jobDesc");
 const submitBtn  = document.getElementById("submitBtn");
 const btnText    = submitBtn.querySelector(".btn-text");
 const btnSpinner = submitBtn.querySelector(".btn-spinner");
-const charCount  = document.getElementById("charCount");
 const status     = document.getElementById("status");
+const pageTitle  = document.getElementById("pageTitle");
+const pageUrl    = document.getElementById("pageUrl");
 
-// ── Live character count + enable button ──
-textarea.addEventListener("input", () => {
-  const len = textarea.value.trim().length;
-  charCount.textContent = textarea.value.length;
-  submitBtn.disabled = len === 0;
+// ── Show current tab info ──
+chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+  pageTitle.textContent = tab.title || "Untitled page";
+  pageUrl.textContent   = tab.url   || "";
 });
 
 // ── Submit ──
 submitBtn.addEventListener("click", async () => {
-  const jobDescription = textarea.value.trim();
-  if (!jobDescription) return;
-
   setLoading(true);
   hideStatus();
 
   try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    const [{ result: pageText }] = await chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      func: () => document.body.innerText,
+    });
+
+    if (!pageText || !pageText.trim()) {
+      throw new Error("Could not read any text from this page.");
+    }
+
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ job_description: jobDescription }),
+      body: JSON.stringify({ job_description: pageText }),
     });
 
     if (!res.ok) {
@@ -35,8 +42,6 @@ submitBtn.addEventListener("click", async () => {
     }
 
     const { redirect_url } = await res.json();
-
-    // FastAPI serves the redirect page from localhost — no CSP issues
     chrome.tabs.create({ url: redirect_url });
     showStatus("success", "Opening in Overleaf...");
   } catch (err) {
