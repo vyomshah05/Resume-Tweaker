@@ -1,9 +1,12 @@
 import os
 import html
+import uuid
 from dotenv import load_dotenv
 from google import genai
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import uvicorn
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
@@ -17,6 +20,20 @@ with open(RESUME_PATH, "r") as f:
     BASE_RESUME = f.read()
 
 app = FastAPI(title="Resume Tweaker")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+class TextRequest(BaseModel):
+    job_description: str
+
+# In-memory store: token -> latex (single-use)
+latex_cache: dict[str, str] = {}
 
 
 def build_prompt(resume: str, job_description: str) -> str:
@@ -97,6 +114,22 @@ async def tweak(job_description: UploadFile = File(...)):
     tweaked_latex = call_gemini(job_text)
 
     return HTMLResponse(content=overleaf_autosubmit_page(tweaked_latex))
+
+
+@app.post("/tweak-text")
+async def tweak_text(body: TextRequest):
+    tweaked_latex = call_gemini(body.job_description)
+    token = str(uuid.uuid4())
+    latex_cache[token] = tweaked_latex
+    return JSONResponse({"redirect_url": f"http://localhost:8000/redirect/{token}"})
+
+
+@app.get("/redirect/{token}", response_class=HTMLResponse)
+async def redirect_to_overleaf(token: str):
+    latex = latex_cache.pop(token, None)
+    if not latex:
+        return HTMLResponse("Token expired or not found.", status_code=404)
+    return HTMLResponse(content=overleaf_autosubmit_page(latex))
 
 
 if __name__ == "__main__":

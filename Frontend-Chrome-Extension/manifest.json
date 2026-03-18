@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Resume Tweaker",
+  "version": "1.0.0",
+  "description": "Paste a job description and get a tailored LaTeX resume opened in Overleaf.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Resume Tweaker"
+  },
+  "permissions": ["tabs"],
+  "host_permissions": ["http://localhost:8000/*"]
+}
