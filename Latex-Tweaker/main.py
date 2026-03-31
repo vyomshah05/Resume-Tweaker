@@ -1,6 +1,7 @@
 import os
 import html
 import uuid
+import logging
 from dotenv import load_dotenv
 from google import genai
 from fastapi import FastAPI, File, UploadFile
@@ -35,6 +36,49 @@ class TextRequest(BaseModel):
 # In-memory store: token -> latex (single-use)
 latex_cache: dict[str, str] = {}
 
+# Unicode invisible/control characters that break LaTeX argument scanning
+_STRIP_CHARS = str.maketrans('', '', ''.join(chr(c) for c in [
+    0x200B, 0x200C, 0x200D, 0x200E, 0x200F,  # Zero-width chars
+    0x202A, 0x202B, 0x202C, 0x202D, 0x202E,  # Bidi embedding marks
+    0x2060, 0x2061, 0x2062, 0x2063, 0x2064,  # Word joiners
+    0xFEFF, 0x00AD,                            # BOM, soft hyphen
+]))
+
+
+def clean_latex(text: str) -> str:
+    """Strip invisible Unicode characters that cause TeX argument-scanning errors."""
+    return text.translate(_STRIP_CHARS)
+
+
+def braces_balanced(text: str) -> bool:
+    """Return True if every unescaped { has a matching }, ignoring % comments."""
+    depth = 0
+    for line in text.split('\n'):
+        # Strip everything after an unescaped %
+        j = 0
+        while j < len(line):
+            if line[j] == '%':
+                bs = 0
+                k = j - 1
+                while k >= 0 and line[k] == '\\':
+                    bs += 1
+                    k -= 1
+                if bs % 2 == 0:
+                    line = line[:j]
+                    break
+            j += 1
+        # Count unescaped braces
+        for j, ch in enumerate(line):
+            if ch in '{}':
+                bs = 0
+                k = j - 1
+                while k >= 0 and line[k] == '\\':
+                    bs += 1
+                    k -= 1
+                if bs % 2 == 0:
+                    depth += 1 if ch == '{' else -1
+    return depth == 0
+
 
 def build_prompt(resume: str, job_description: str) -> str:
     return f"""You are an expert technical Hiring Manager and ATS optimization specialist.
@@ -45,13 +89,16 @@ Rules:
 - Preserve ALL LaTeX formatting, commands, and structure exactly — do not change any LaTeX syntax
 - Only modify the text content (bullet points, skill keywords, project descriptions, section text)
 - Reframe existing experience using keywords and terminology from the job description
-- Do NOT fabricate new experiences, companies, dates, or skills the candidate doesn't have
+- Do NOT fabricate new experiences, projects, companies, dates, or skills the candidate doesn't have
 - Prioritize keywords that ATS systems will scan for from the job description
 - Keep bullet points concise, action-verb-led, impact-focused, include numbers
 - Return ONLY the complete modified LaTeX source — no explanation, no markdown fences
-- Ensure the length of the resume remains the same number of lines of text
 - Every \\resumeProjectHeading call MUST have exactly two brace-enclosed arguments: the title and an empty second argument {{}}, e.g. \\resumeProjectHeading{{Title $|$ \\emph{{Stack}}}}{{}}
 - Always escape bare ampersands in text as \\& (e.g. "Data \\& Analytics", never "Data & Analytics")
+- CRITICAL: Every opening brace {{ must have a matching closing brace }}. Never leave a brace unmatched.
+- Do NOT insert any non-ASCII or Unicode characters — use only standard ASCII and LaTeX commands
+- Do NOT add LaTeX comments (lines starting with %)
+- Ensure the length of the resume remains the same number of lines of text
 
 Job Description:
 {job_description}
@@ -62,15 +109,23 @@ Original LaTeX Resume:
 
 def call_gemini(job_description: str) -> str:
     prompt = build_prompt(BASE_RESUME, job_description)
-    response = client.models.generate_content(
-        model="gemini-3-flash-preview", contents=prompt
-    )
-    tweaked = response.text.strip()
-    if tweaked.startswith("```"):
-        tweaked = "\n".join(tweaked.split("\n")[1:])
-    if tweaked.endswith("```"):
-        tweaked = "\n".join(tweaked.split("\n")[:-1])
-    return tweaked
+    last_result = ""
+    for attempt in range(3):
+        response = client.models.generate_content(
+            model="gemini-3-flash-preview", contents=prompt
+        )
+        tweaked = response.text.strip()
+        if tweaked.startswith("```"):
+            tweaked = "\n".join(tweaked.split("\n")[1:])
+        if tweaked.endswith("```"):
+            tweaked = "\n".join(tweaked.split("\n")[:-1])
+        tweaked = clean_latex(tweaked)
+        if braces_balanced(tweaked):
+            return tweaked
+        logging.warning("Attempt %d: unbalanced braces in Gemini output, retrying.", attempt + 1)
+        last_result = tweaked
+    logging.error("All attempts produced unbalanced LaTeX. Returning last result.")
+    return last_result
 
 
 def overleaf_autosubmit_page(latex: str) -> str:
